@@ -92,9 +92,9 @@
     <orderEntry type="library" exported="" name="httpcore-4.2.1" level="project" />
     <orderEntry type="library" exported="" name="org.apache.commons.lang_2.4.0.v201005080502" level="project" />
     <orderEntry type="library" exported="" name="commons-logging-1.1.1" level="project" />
+    <orderEntry type="library" exported="" name="slf4j-android-1.6.1-RC1" level="project" />
     <orderEntry type="library" exported="" name="fastjson-1.1.33-sources" level="project" />
     <orderEntry type="library" exported="" name="axis" level="project" />
-    <orderEntry type="library" exported="" name="slf4j-android-1.6.1-RC1" level="project" />
     <orderEntry type="library" exported="" name="design-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="fluent-hc-4.2.1" level="project" />

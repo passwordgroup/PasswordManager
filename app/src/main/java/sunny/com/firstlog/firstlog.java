@@ -1,6 +1,8 @@
 package sunny.com.firstlog;
 
 
+import org.apache.axis.encoding.Base64;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -9,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -17,11 +20,9 @@ import javax.crypto.Mac;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import org.apache.axis.encoding.Base64;
-import org.apache.commons.lang.StringUtils;
 
-import sunny.com.photo_data.FirstLogData;
 import sunny.com.passwordmanager.Register;
+import sunny.com.photo_data.FirstLogData;
 
 
 public class firstlog {
@@ -51,8 +52,10 @@ public class firstlog {
 
 	}
  	//SHA256 ����
- 	public static String encryptSHA(String msg) {
-		String salt = getSaltSHA1();
+ 	public static String encryptSHA(String msg,String key) {
+		String salt;
+		if(key==null)salt=getSaltSHA1();
+		else salt =key;
 		StringBuilder sb = new StringBuilder();
 		try{
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -162,7 +165,7 @@ public class firstlog {
  	//����PRK
  	public static byte[] ComputPRK(String MP, String username, int c) throws Exception {
 	 	byte[] PRK ;
-	 	String key=encryptSHA(MP);
+	 	String key=encryptSHA(MP,"");
 	 	for(int i=1;i<c;i++) {
 		 	byte[] u= null;
 		 	u=encryptHMAC(key.getBytes(),username);
@@ -183,15 +186,15 @@ public class firstlog {
 	}
  	//��һ�ε�½
  	private void FirstTimelog(String MP, String username) throws Exception {
-    	String uid=encryptSHA(username + getNowtimetwo());    //��ȡuid
+    	String uid=encryptSHA(username + getNowtimetwo(), "");    //��ȡuid
     	KeyGenerator kg=KeyGenerator.getInstance("AES");
     	kg.init(256);
     	SecretKey ke=kg.generateKey();          //����ke
     	byte[] PRK=ComputPRK(MP, uid, 512);         //����PRK��cΪ������ֵ�����޸ģ������ݶ�Ϊ4096
-    	byte[] k1=null;
+    	String k1=null;
     	String u1=uid+1+"";
-    	k1=encryptHMAC(PRK, encryptMD5(u1));     //����K1
-    	String EncK1Ke=encryptAES(ke.toString(),new String(k1));   //�����k1���ܵ�ke
+    	k1=encryptSHA(PRK.toString(), encryptMD5(u1));     //����K1
+    	String EncK1Ke=encryptAES(ke.toString(),k1);   //�����k1���ܵ�ke
 		firstLogData.setEncK1Ke(EncK1Ke);
 		firstLogData.setK1(k1);
 		firstLogData.setKe(ke);

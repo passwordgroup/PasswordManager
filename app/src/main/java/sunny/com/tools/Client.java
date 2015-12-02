@@ -19,7 +19,7 @@ public class Client {
         DefaultHttpClient defaultHttpClient;
         HttpPost post;
         HttpResponse response;
-        String str_response ="";//返回的内容
+        String str_response =null;//返回的内容
         try {
             defaultHttpClient = new DefaultHttpClient();
             post = new HttpPost(url);
@@ -43,8 +43,8 @@ public class Client {
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            return null;
+        }finally {
+            return str_response;
         }
-        return str_response;
     }
 }
