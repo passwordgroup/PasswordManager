@@ -20,7 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.axis.encoding.Base64;
 import org.apache.commons.lang.StringUtils;
 
-import sunny.com.data.FirstLogData;
+import sunny.com.photo_data.FirstLogData;
 import sunny.com.passwordmanager.Register;
 
 
@@ -40,6 +40,7 @@ public class firstlog {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
+		firstLogData.setMp(mp);
 		try {
 			FirstTimelog(mp, username);    //���õ�һ�ε�½����
 			return firstLogData;

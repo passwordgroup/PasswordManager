@@ -1,13 +1,14 @@
 package sunny.com.passwordmanager;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -15,22 +16,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import sunny.com.data.AddFace;
-import sunny.com.data.AddResult;
-import sunny.com.data.Const;
-import sunny.com.data.DetectResult;
-import sunny.com.data.FaceModel;
-import sunny.com.data.FirstLogData;
-import sunny.com.data.PhotoDetectData;
+import sunny.com.photo_data.AddFace;
+import sunny.com.photo_data.AddResult;
+import sunny.com.photo_data.Const;
+import sunny.com.photo_data.DetectResult;
+import sunny.com.photo_data.FaceModel;
+import sunny.com.photo_data.FirstLogData;
+import sunny.com.photo_data.PhotoDetectData;
 import sunny.com.firstlog.firstlog;
 import sunny.com.tools.BitmapUtil;
 import sunny.com.tools.Client;
@@ -40,6 +41,7 @@ public class Camera extends BaseActivity implements View.OnClickListener
 {
     private ImageView iv_photo;//暂时存放照片的地方
     private Button btn_camera;//开始照相的按钮
+    private ProgressBar pb_add;//运行添加操作时显示的progressbar
     private Bitmap bitmap;//存放拍摄照片的bitmap对象
     private String base64_img;//照片转化为base64编码
     private String s;//base64编码的json形式
@@ -56,7 +58,6 @@ public class Camera extends BaseActivity implements View.OnClickListener
     private FirstLogData firstLogData;//第一次登陆得到的数据
     private firstlog login;//计算登陆数据用到的工具类
     private Sqltools sqltools;//向云数据库添加数据用到的工具类
-    private SQLiteDatabase secret = Register.secret;
     //广告接收器
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -65,6 +66,8 @@ public class Camera extends BaseActivity implements View.OnClickListener
             if(action.equals("com.detect.end")){
                 if(detectResult == null){
                     Toast.makeText(Camera.this,"网络状况不健康",Toast.LENGTH_SHORT).show();
+                    pb_add.setVisibility(View.INVISIBLE);
+                    btn_camera.setVisibility(View.VISIBLE);
                 }else{
                     List<FaceModel> list = detectResult.getFacemodels();
                     if (!list.isEmpty()){
@@ -72,6 +75,8 @@ public class Camera extends BaseActivity implements View.OnClickListener
                         handler.post(add);
                     }else{
                         Toast.makeText(Camera.this,"没有检测到人脸",Toast.LENGTH_SHORT).show();
+                        pb_add.setVisibility(View.INVISIBLE);
+                        btn_camera.setVisibility(View.VISIBLE);
                     }
                 }
             }else if(action.equals("com.add.end")){
@@ -80,6 +85,21 @@ public class Camera extends BaseActivity implements View.OnClickListener
                 handler.post(devicesql);
                 //开启子线程，在云数据库上创建以nickname命名的表
                 handler.post(Alisql);
+                pb_add.setVisibility(View.INVISIBLE);
+                new AlertDialog.Builder(Camera.this)
+                        .setTitle("是否进行声纹注册")
+                        .setNegativeButton("否", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(Camera.this,MainActivity.class));
+                            }
+                        })
+                        .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(Camera.this,VoiceRegister.class));
+                            }
+                        }).show();
             }
         }
     };
@@ -131,7 +151,11 @@ public class Camera extends BaseActivity implements View.OnClickListener
             values.put("Ke",firstLogData.getKe());
             values.put("K1", firstLogData.getstringK1());
             values.put("EncK1Ke", firstLogData.getEncK1Ke());
-            secret.insert(Register.secretname, null, values);
+            Register.secret.insert(Register.secretname, null, values);
+            Toast.makeText(Camera.this,"uid"+firstLogData.getUid(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Camera.this,"ke"+firstLogData.getKe(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Camera.this,"k1"+firstLogData.getstringK1(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Camera.this, "mp"+firstLogData.getMp(), Toast.LENGTH_SHORT).show();
             Toast.makeText(Camera.this,"手机数据库操作成功",Toast.LENGTH_SHORT).show();
         }
     };
@@ -167,6 +191,7 @@ public class Camera extends BaseActivity implements View.OnClickListener
         et_nick = new EditText(this);
         iv_photo = (ImageView) findViewById(R.id.iv_head);
         btn_camera = (Button) findViewById(R.id.btn_photo);
+        pb_add = (ProgressBar) findViewById(R.id.pb_add);
         btn_camera.setOnClickListener(this);
     }
 
@@ -220,6 +245,8 @@ public class Camera extends BaseActivity implements View.OnClickListener
             bitmap = BitmapUtil.saveBitmap(Photo.getAbsolutePath(), Photo);
         }
         if(bitmap != null){
+            btn_camera.setVisibility(View.INVISIBLE);
+            pb_add.setVisibility(View.VISIBLE);
             iv_photo.setImageBitmap(bitmap);
             base64_img = BitmapUtil.bitmaptoString(bitmap);
             detectData.setFaceImage(base64_img);

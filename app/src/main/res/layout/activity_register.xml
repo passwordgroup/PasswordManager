@@ -26,6 +26,9 @@
         android:layout_below="@id/et_username"
         android:layout_marginTop="20dp"
         android:layout_alignParentRight="true"
-        android:background="@drawable/image1"
+        android:text="下一步"
+        android:textSize="16dp"
+        android:textColor="@color/voice_txt_color"
+        android:background="@drawable/voice_next_btn_bg"
         />
 </RelativeLayout>

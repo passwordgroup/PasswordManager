@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">PasswordManager</string>
+    <string name="title_activity_voice_register">VoiceRegister</string>
+    <string name="btn_cancel_txt">取消</string>
+    <string name="preparing">准备中请稍后……</string>
+    <string name="textregister">请按住按钮，贴近手机下方话筒，匀速读出这句话</string>
+    <string name="texttospeak">西北工业大学</string>
+    <string name="presstospeak">按住说话</string>
+    <string name="voice_say_error_1txt">录音时间太短，请重新录制</string>
+    <string name="error_no_sdcard">没有SD卡</string>
+    <string name="error_state_record">正在录音中，请停止录音</string>
+    <string name="error_unknown">无法识别的错误</string>
+    <string name="text_step_3_tip">已完成第一步，请再一次录音确认</string>
+    <string name="buttontonext">下一步</string>
+    <string name="buttontotakephoto">拍照</string>
 </resources>

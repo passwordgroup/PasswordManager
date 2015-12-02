@@ -5,26 +5,39 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="sunny.com.passwordmanager.Camera">
+    tools:context="sunny.com.passwordmanager.Camera"
+    android:background="@drawable/carme_background">
     <ImageView
         android:id="@+id/iv_head"
         android:layout_width="210dp"
         android:layout_height="280dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:src="@drawable/image"
+        android:src="@drawable/head"
         />
     <Button
         android:id="@+id/btn_photo"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="32dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:layout_below="@id/iv_head"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/image2"
+        android:text="@string/buttontotakephoto"
+        android:textSize="16dp"
+        android:textColor="@color/voice_txt_color"
+        android:background="@drawable/voice_next_btn_bg"
         />
+
     <ProgressBar
+        android:id="@+id/pb_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/AlertDialog.AppCompat"/>
+        style="@style/AlertDialog.AppCompat"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        android:layout_below="@id/iv_head"/>
 </RelativeLayout>

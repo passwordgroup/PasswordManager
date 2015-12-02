@@ -1,6 +1,5 @@
 package sunny.com.tools;
 
-import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import sunny.com.data.Const;
+import sunny.com.photo_data.Const;
 import sunny.com.passwordmanager.Register;
 
 /**
@@ -25,7 +24,7 @@ public class Sqltools {
     private ResultSet set;
     private String username = Register.nickname;//用户自己设定的用户名，这里用作晕数据库中的表名
     private String imagebase64;//图像的base64编码
-    private String insertsql = "INSERT INTO userimage(useranme,base64) values(?,?);";
+    private String insertsql = "INSERT INTO userimage(username,base) values(?,?);";
     private String createsql = "CREATE TABLE ?(username VARCHAR(20) PRIMARY KEY ,keki TEXT ,service VARCHAR(20));";
     public Sqltools(String imagebase64){
         this.imagebase64 = imagebase64;
@@ -36,7 +35,7 @@ public class Sqltools {
         }
         try {
             conn = DriverManager.getConnection(url, name, password);
-        } catch (SQLException e) {
+         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
