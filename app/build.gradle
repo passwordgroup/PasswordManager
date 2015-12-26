@@ -32,7 +32,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
@@ -49,4 +49,16 @@ dependencies {
     compile files('/home/sunny/文档/ASP/PasswordManager/libs/fastjson-1.1.33.jar')
     compile files('/home/sunny/文档/ASP/PasswordManager/libs/commons-logging-1.1.1.jar')
     compile files('libs/hcicloud-5.0.jar')
+    compile files('/home/anooy/git/PasswordManager/libs/axis.jar')
+    compile files('/home/anooy/git/PasswordManager/libs/commons-codec-1.6.jar')
+    compile files('/home/anooy/git/PasswordManager/libs/commons-logging-1.1.1.jar')
+    compile files('/home/anooy/git/PasswordManager/libs/fastjson-1.1.33.jar')
+    compile files('/home/anooy/git/PasswordManager/libs/fastjson-1.1.33-sources.jar')
+    compile files('/home/anooy/git/PasswordManager/libs/fluent-hc-4.2.1.jar')
+    compile files('/home/anooy/git/PasswordManager/libs/httpclient-4.2.1.jar')
+    compile files('/home/anooy/git/PasswordManager/libs/httpclient-cache-4.2.1.jar')
+    compile files('/home/anooy/git/PasswordManager/libs/httpcore-4.2.1.jar')
+    compile files('/home/anooy/git/PasswordManager/libs/httpmime-4.2.1.jar')
+    compile files('/home/anooy/git/PasswordManager/libs/mysql-connector-java-5.1.17-bin.jar')
+    compile files('/home/anooy/git/PasswordManager/libs/org.apache.commons.lang_2.4.0.v201005080502.jar')
 }

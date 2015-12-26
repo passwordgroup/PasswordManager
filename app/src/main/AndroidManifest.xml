@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -34,12 +35,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Register"></activity>
-        <activity android:name=".Camera"></activity>
+        <activity android:name=".Register" />
+        <activity android:name=".Camera" />
         <activity
             android:name=".VoiceRegister"
             android:label="@string/title_activity_voice_register"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".encrypt" />
+        <activity android:name=".Encrypt" />
+        <activity android:name=".Decrypt"></activity>
     </application>
 
 </manifest>

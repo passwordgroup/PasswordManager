@@ -35,7 +35,7 @@ public class firstlog {
 		this.MP = imagebase64.getBytes();
 	}
 	public FirstLogData getFirstLogData(){
-		String mp= null;        //����mpֵ
+		String mp= null;
 		try {
 			mp = encryptMD5(MP.toString());
 		} catch (NoSuchAlgorithmException e) {
@@ -43,7 +43,7 @@ public class firstlog {
 		}
 		firstLogData.setMp(mp);
 		try {
-			FirstTimelog(mp, username);    //���õ�һ�ε�½����
+			FirstTimelog(mp, username);
 			return firstLogData;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -51,7 +51,7 @@ public class firstlog {
 		return null;
 
 	}
- 	//SHA256 ����
+ 	//SHA256
  	public static String encryptSHA(String msg,String key) {
 		String salt;
 		if(key==null)salt=getSaltSHA1();
@@ -130,7 +130,7 @@ public class firstlog {
 		return new String(decryptResult,"UTF-8");
 	}
    
- 	//HMAC ����
+ 	//HMAC
  	public static byte[] encryptHMAC(byte[] data, String key) throws Exception {
      	SecretKey secretKey = new SecretKeySpec(decryptBASE64(key), KEY_MAC);
      	Mac mac = Mac.getInstance(secretKey.getAlgorithm());
@@ -177,24 +177,24 @@ public class firstlog {
 	 	PRK=key.getBytes();
 	 	return PRK;
  	}
-	//��ȡϵͳʱ��
+
 	public static String getNowtimetwo() {
 		Calendar cal=Calendar.getInstance();
     	SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	String strDate= f.format(cal.getTime());
 		return strDate;
 	}
- 	//��һ�ε�½
+
  	private void FirstTimelog(String MP, String username) throws Exception {
     	String uid=encryptSHA(username + getNowtimetwo(), "");    //��ȡuid
     	KeyGenerator kg=KeyGenerator.getInstance("AES");
     	kg.init(256);
-    	SecretKey ke=kg.generateKey();          //����ke
-    	byte[] PRK=ComputPRK(MP, uid, 512);         //����PRK��cΪ������ֵ�����޸ģ������ݶ�Ϊ4096
+    	SecretKey ke=kg.generateKey();
+    	byte[] PRK=ComputPRK(MP, uid, 512);
     	String k1=null;
     	String u1=uid+1+"";
-    	k1=encryptSHA(PRK.toString(), encryptMD5(u1));     //����K1
-    	String EncK1Ke=encryptAES(ke.toString(),k1);   //�����k1���ܵ�ke
+    	k1=encryptSHA(PRK.toString(), encryptMD5(u1));
+    	String EncK1Ke=encryptAES(ke.toString(),k1);
 		firstLogData.setEncK1Ke(EncK1Ke);
 		firstLogData.setK1(k1);
 		firstLogData.setKe(ke);
